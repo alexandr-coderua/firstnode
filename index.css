@@ -1,0 +1,388 @@
+@font-face {
+    font-family: PyBlack; /* Гарнитура шрифта */
+    src: url(fonts/black.ttf); /* Путь к файлу со шрифтом */
+}
+@font-face {
+    font-family: PyRegular; /* Гарнитура шрифта */
+    src: url(fonts/regular.ttf); /* Путь к файлу со шрифтом */
+}
+@font-face {
+    font-family: PyBold; /* Гарнитура шрифта */
+    src: url(fonts/semibold.ttf); /* Путь к файлу со шрифтом */
+}
+/*Подключение шрифтов*/
+body{
+    margin: 0;
+    padding: 0;
+    font-family: PyRegular;
+    display: flex;
+    justify-content: center;
+}
+header{
+    position: relative;
+    z-index: 100;
+    width: 680px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.all_inner{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+}
+.cardBlock{
+    margin-top: 100px;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    box-shadow: 0px 1px 2px #9f9f9f;
+    border-radius: 1.25rem;
+}
+.cardBlockTexts{
+    display: flex;
+    flex-direction: column;
+}
+.cardText{
+    font-size: 32px;
+    font-family: PyBlack;
+    font-weight: bold;
+}
+.cardUpper{
+    padding: 0.6rem 0;
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.LogoImg{
+    margin-top: -40px;
+    height: 100px;
+    width: 100px;
+}
+.cardTextTitle{
+    font-family: PyBlack;
+    font-weight: bold;
+    font-size: 15px;
+    color: #959595;
+}
+.frutsImg{
+    padding: 1rem 0;
+    width: 100%;
+}
+.qrCode{
+    height: 10vh;
+    width: 90%;
+    padding: 0.6rem 0;
+}
+.backgroundSphere{
+    background: linear-gradient(#f04c29, #eb834e);
+    width: 100%;
+    height: 20%;
+    position: absolute;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+    z-index: -1;
+    display: flex;
+    justify-content: center;
+}
+.nameUser{
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    font-family: PyBold;
+}
+.backgroundBlock{
+    width: 90%;
+    height: 30%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.threeDots span{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    background-color: white;
+}
+.balanceBlock{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 2rem;
+    font-size: PyBold;
+    font-weight: bold;
+}
+.balanceBlockText{
+    width: 100%;
+    dispaly: flex;
+    justify-content: flex-start;
+    margin-top: 65px;
+}
+.listBalances, .listClub{
+    margin-top: 30px;
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: white;
+}
+.balanceItem{
+    background: linear-gradient(#7bcb05, #189900);
+}
+.stickerItem{
+    background-size: contain;
+    background-image: url(./img/stickers-card.png);
+}
+.balanceItemBalance, .stickerItemBalance{
+    margin-left: 10%;
+    font-size: 1.8rem;
+}
+.balanceItemList, .stickerItemList{
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+}
+.balanceImg{
+    width: 50%;
+    position: relative;
+    opacity: 0.3;
+}
+.balanceImgBlock, .StickerImgBlock, .detImgBlock, .barImgBlock{
+    height: 95%;
+    width: 67%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+.StickerImgBlock{
+    height: 100%;
+}
+.StickerImg{
+    width: 100%;
+    position: relative;
+}
+.historyBlock{
+    margin-top: 50px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.historyText{
+    width: 100%;
+    dispaly: flex;
+    justify-content: flex-start;
+    font-size: 2rem;
+    font-size: PyBold;
+    font-weight: bold;
+}
+.historyTitle{
+    font-size: 1.4rem;
+    color: #959595;
+}
+.clubBlock{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 2rem;
+    font-size: PyBold;
+    font-weight: bold;
+}
+.clubBlockText{
+    width: 100%;
+    dispaly: flex;
+    justify-content: flex-start;
+    margin-top: 65px;
+}
+.detItem{
+    background-size: contain;
+    background-image: url(./img/child-club.png);
+}
+.barItem{
+    background: linear-gradient(#5c1162, #04043c);
+}
+.detItem, .barItem, .balanceItem, .stickerItem{
+    overflow: hidden;
+    display: flex;
+    flex-basis: 49%;
+    border-radius: 0.3em;
+    box-shadow: 0px 0px 8px black;
+}
+.balanceItem:after, .detItem:after, .barItem:after, .stickerItem:after{
+    content: '';
+    display: block;
+    padding-top: 100%;
+}
+.balanceItemText, .stickerItemText, .detItemText, .barItemText{
+    margin-left: 10%;
+    font-size: 2rem;
+}
+.detImgBlockInner{
+    display: flex;
+    flex-direction: column;
+}
+.detItemText{
+    width: 30%;
+}
+.detImgBlock{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    width: 105%;
+}
+.detImg{
+    margin-bottom: -12px;
+    width: 70%;
+    position: relative;
+}
+.detImgBlockInner{
+    width: 100%;
+}
+.barImgBlock{
+    width: 60%;
+}
+.barImg{
+    width: 90%;
+}
+.celiBlock{
+    margin-top: 50px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.celiText{
+    width: 100%;
+    dispaly: flex;
+    justify-content: flex-start;
+    font-size: 30px;
+    font-size: PyBold;
+    font-weight: bold;
+}
+.celiList{
+    margin-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 15px;
+    height: 55px;
+    width: 90%;
+    background-color: #f8f8f8;
+    border-radius: 2em;
+    color: #c8c8c8;
+}
+.celiList div:nth-child(3){
+    margin-right: 10%;
+}
+.celiList div:first-child{
+    width: 35%;
+    height: 35px;
+    border-radius: 15px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    font-family: PyBold;
+    box-shadow: 0px 0px 3px black;
+}
+.celiTitle{
+    margin-top: 40px;
+    font-size: 15px;
+    color: #c8c8c8;
+    margin-bottom: 140px;
+}
+.menuBlock{
+    animation-name: fadeInUp;
+    animation-duration: 0.5s;
+    margin-top: 90vh;
+    position: fixed;
+    display: none;
+    background-color: white;
+    box-shadow: 0px 4px 10px #767676;
+    width: 350px;
+    height: 70px;
+    border-radius: 40px;
+    align-items: center;
+    justify-content: space-around;
+    transition: 1s;
+}
+.active{
+    animation-name: fadeInDown;
+    animation-duration: 0.5s;
+    display: flex;
+}
+.Error{
+    z-index: 1000;
+    height: 40px;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1rem;
+    background-color: rgb(0, 0, 0, 0.3);
+    position: absolute;
+}
+@media screen and (max-width: 500px){
+    .balanceBlockText, .balanceItemText, .detItemText, .barItemText, .historyText, .clubBlockText, .celiText, .stickerItemText, .historyTitle, .nameUser, .stickerItemBalance, .balanceItemBalance{
+        font-size: 5vw;
+    }
+    .balanceItemBalance, .stickerItemBalance{
+        font-size: 5vw;
+    }
+    .celiList, .celiTitle, .cardTextTitle{
+        font-size: 3.5vw;
+    }
+    .frutsImg, .qrCode{
+        padding: 2vw 0;
+        margin:0;
+    }
+    .cardBlock{
+        border-radius: 4vw;
+    }
+    .LogoImg{
+        height: 15vw;
+        width: 15vw;
+        margin-top: -8vw;
+    }
+    .cardText{
+        font-size: 6vw;
+    }
+    .backgroundSphere{
+        height: 70vw;
+    }
+    .cardUpper{
+        padding: 2vw 0;
+    } 
+    .qrCode{
+        height: 18vw;
+        width: 90%;
+    }
+    .threeDots span{
+        width: 3vw;
+        height: 3vw;
+    }
+    .menuBlock{
+        width: 80vw;
+        height: 15vw;
+    }
+    .menuBlock img{
+        width: 7vw;
+    }
+    .cardBlock{
+        margin-top: 25vw;
+    }
+    .historyBlock, .balanceBlockText, .clubBlockText, .celiBlock, .celiTitle{
+        margin-top: 10vw;
+    }
+    .detImg{
+        margin-bottom: -7px;
+    }
+}

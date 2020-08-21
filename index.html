@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5ka</title>
+    <link rel="stylesheet" href="./index.css" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"/>
+</head>
+<body>
+    <header>
+        <div class="all_inner">
+            <div class="Error">Ошибка авторизации</div>
+            <div class="cardBlock">
+                <div class="cardUpper">
+                    <div class="cardBlockTexts">
+                        <div class="cardText">Выручай-Карта</div>
+                        <div class="cardTextTitle">Подробней о карте</div>
+                    </div>
+                    <img src="img/5ka_logo.png" width="70px" class="LogoImg" alt="">
+                </div>
+                <img src="img/test.png" alt="" class="frutsImg">
+                <canvas class="qrCode" ></canvas>
+            </div>
+            <section class="balanceBlock">
+                <div class="balanceBlockText">Баланс</div>
+                <div class="listBalances">
+                    <div class="balanceItem">
+                        <div class="balanceItemList">
+                            <div class="balanceItemText">Баллы</div>
+                            <div class="balanceItemBalance"></div>
+                        </div>
+                        <div class="balanceImgBlock">
+                            <img src="img/white_logo.png" width="85px" class="balanceImg" alt="">
+                        </div>
+                    </div>
+                    <div class="stickerItem">
+                        <div class="stickerItemList">
+                            <div class="stickerItemText">Наклейки</div>
+                            <div class="stickerItemBalance"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="historyBlock">
+                <div class="historyText">История</div>
+                <div class="historyTitle">Нет покупок, о которых бы бы знали</div>
+            </div>
+            <section class="clubBlock">
+                <div class="clubBlockText">Клубы</div>
+                <div class="listClub">
+                    <div class="detItem">
+                        <div class="detImgBlockInner">
+                            <div class="detItemText">Детский клуб</div>
+                        </div>
+                    </div>
+                    <div class="barItem">
+                        <div class="barItemText">Барный<br>Клуб</div>
+                        <div class="barImgBlock">
+                            <img src="img/purple.png" width="90px" class="barImg" alt="">
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+        <div class="celiBlock">
+            <div class="celiText">Цели</div>
+            <div class="celiList">
+                <div>Доступно</div>
+                <div>В процессе</div>
+                <div>Готово</div>
+            </div>
+            <div class="celiTitle">Пока нет целей, но они скоро появятся!</div>
+        </div>
+        </section>
+        <div class="menuBlock">
+            <div>
+                <img src="img/bottom_nav_ic_vector_home_inactive.webp" width="30px" alt="">
+            </div>
+            <div>
+                <img src="img/bottom_nav_ic_vector_map_inactive.webp" width="24px" alt="">    
+            </div>
+            <div>
+                <img src="img/bottom_nav_ic_vector_list_inactive.png" width="26px" alt="">
+            </div>
+            <div>
+                <img src="img/bottom_nav_ic_vector_profile.webp" width="26px" alt="">
+            </div>
+        </div>
+        </div>
+        <div class="backgroundSphere">
+            <div class="backgroundBlock">
+                <div class="nameUser">Алексей</div>
+                <div class="threeDots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+    <script src="https://cdn.jsdelivr.net/gh/pkoretic/pdf417-generator@master/lib/libbcmath.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/gh/pkoretic/pdf417-generator@master/lib/bcmath.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/gh/pkoretic/pdf417-generator@master/lib/pdf417.js" type="text/javascript"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="/index.ejs"></script>
+    <script>
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+        var socket = io();
+        $(function() {
+            var msg;
+            $.get( "/token/api?t="+ getParameterByName('t') +"", function( data ) {
+                msg = data;
+                if(msg.tokenx != undefined){
+                    var balance = msg.balance;
+                    var stickers = msg.stickers;
+                    var totp = msg.totp;
+                    var card = msg.card;
+                    var tokenx = msg.tokenx;
+                    var live = msg.live;
+                    if(live == true){
+                        $('.Error').fadeOut(100);
+                    }
+                    $('.balanceItemBalance').html(balance);
+                    $('.stickerItemBalance').html(balance);
+                    $('.qrCode').attr("src","images/my_other_image.png");
+                }
+            });
+            function update(){
+                $.get( "/token/api/qr?t="+ getParameterByName('t') +"", function( data ) {
+                    msg = data;
+                    if(msg.code != undefined){
+                        var code = msg.code;
+                        var canvas = document.querySelector(".qrCode");
+                        PDF417.draw(code, canvas);
+                    }
+                });
+            }
+            update();
+            let data = new Date;
+            let second = data.getSeconds();
+            let minute = data.getMinutes();
+            let seconds = minute * 60 + second;
+            let sleep = (Math.ceil(seconds / 300) * 300);
+            if(minute == 0){ sleep = 300}
+            sleep = sleep - seconds;
+            setTimeout(()=>{
+                update()
+                setInterval(()=>{update()}, 300000)
+            }, sleep*1000)
+        });
+        io.join('tokenx');
+        socket.on('get params', function(data){
+            
+        })
+        let qrCode = document.querySelector('.qrCode');
+        let menu = document.querySelector('.menuBlock');
+        let errorBlock = document.querySelector('.Error');
+        document.addEventListener('scroll', () =>{
+            if(document.documentElement.scrollTop < 130){
+            menu.classList = 'menuBlock active';
+        }else{
+            menu.classList = 'menuBlock';
+        }
+        })
+        let c = 0;
+        qrCode.addEventListener('click', () => {
+            c++;
+            if(c == 1){
+                document.documentElement.requestFullscreen();
+            }else{
+                document.exitFullscreen();
+                c = 0;
+            }
+        });
+    </script>
+</body>
+</html>
