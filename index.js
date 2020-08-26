@@ -30,23 +30,43 @@ app.get('/token/api?:t', function(req, res) {
 			let stickers = results[0]['stickers'];
 			var request = require('request');
 			var options = {
-			'method': 'GET',
-			'url': 'https://my.5ka.ru/api/v3/cards/',
-			'proxy': 'http://lum-customer-hl_7000f344-zone-static-country-ru:0ift2lobao4f@zproxy.lum-superproxy.io:22225',
-			'headers': {
-				'X-Authorization': tokenx,
-				'Connection': 'keep-alive',
-				'X-DEVICE-ID': 'F4D4798D-E400-49DC-A67E-86BD11DC686E',
-				'X-PLATFORM': 'ios',
-				'User-Agent': 'Pyaterochka/798 CFNetwork/1126 Darwin/19.5.0',
-				'X-APP-VERSION': '3.0.0',
-				'X-CAN-RECEIVE-PUSH': 'true',
-				'X-PUSH-TOKEN': 'fZODjdmPrzQ:APA91bHbGBUvaLWub3j0-vo6z9Qk9Bwg695oNwQwt8uoRI6NYSojXHVZIkx2WYmLJrDrKjZ_r7aysPxlsc-1DLnpWtE0Nc4mXxcnGoSfQn_2dAnfOsrd6yIaAMpeOWQpdt-AF3bQ7-US',
-				'Host': 'my.5ka.ru',
-				'Accept-Language': 'ru',
-				'Accept-Encoding': 'gzip, deflate, br',
-			}
+				'method': 'GET',
+				'url': 'https://my.5ka.ru/api/v1/users/me',
+				'proxy': 'http://lum-customer-hl_7000f344-zone-static-country-ru:0ift2lobao4f@zproxy.lum-superproxy.io:22225',
+				'headers': {
+					'X-Authorization': tokenx,
+					'Connection': 'keep-alive',
+					'X-DEVICE-ID': 'F4D4798D-E400-49DC-A67E-86BD11DC686E',
+					'X-PLATFORM': 'ios',
+					'User-Agent': 'Pyaterochka/798 CFNetwork/1126 Darwin/19.5.0',
+					'X-APP-VERSION': '3.0.0',
+					'X-CAN-RECEIVE-PUSH': 'true',
+					'X-PUSH-TOKEN': 'fZODjdmPrzQ:APA91bHbGBUvaLWub3j0-vo6z9Qk9Bwg695oNwQwt8uoRI6NYSojXHVZIkx2WYmLJrDrKjZ_r7aysPxlsc-1DLnpWtE0Nc4mXxcnGoSfQn_2dAnfOsrd6yIaAMpeOWQpdt-AF3bQ7-US',
+					'Host': 'my.5ka.ru',
+					'Accept-Language': 'ru',
+					'Accept-Encoding': 'gzip, deflate, br',
+				}
 			};
+			var options = {
+			'method': 'GET',
+				'url': 'https://my.5ka.ru/api/v1/users/me',
+				'proxy': 'http://lum-customer-hl_7000f344-zone-static-country-ru:0ift2lobao4f@zproxy.lum-superproxy.io:22225',
+				'headers': {
+					'X-Authorization': tokenx,
+					'Connection': 'keep-alive',
+					'X-DEVICE-ID': 'F4D4798D-E400-49DC-A67E-86BD11DC686E',
+					'X-PLATFORM': 'ios',
+					'User-Agent': 'Pyaterochka/798 CFNetwork/1126 Darwin/19.5.0',
+					'X-APP-VERSION': '3.0.0',
+					'X-CAN-RECEIVE-PUSH': 'true',
+					'X-PUSH-TOKEN': 'fZODjdmPrzQ:APA91bHbGBUvaLWub3j0-vo6z9Qk9Bwg695oNwQwt8uoRI6NYSojXHVZIkx2WYmLJrDrKjZ_r7aysPxlsc-1DLnpWtE0Nc4mXxcnGoSfQn_2dAnfOsrd6yIaAMpeOWQpdt-AF3bQ7-US',
+					'Host': 'my.5ka.ru',
+					'Accept-Language': 'ru',
+					'Accept-Encoding': 'gzip, deflate, br',
+				}
+			};
+			request(options, function(error, response){})
+			options['url'] = 'https://my.5ka.ru/api/v3/cards/';
 			request(options, function (error, response) {
 			if (error) throw new Error(error);
 			var response = JSON.parse(response.body);
