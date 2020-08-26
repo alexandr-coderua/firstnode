@@ -50,7 +50,7 @@ app.get('/token/api?:t', function(req, res) {
 			request(options, function (error, response) {
 			if (error) throw new Error(error);
 			var response = JSON.parse(response.body);
-				if(response['detail'] == "Ошибка авторизации."){
+				if(response['detail'] != undefined && response.statusCode != 200){
 					var live = false;
 					res.json({id: id, tokenx: tokenx, totp: totp, card: card, balance: balance, stickers: stickers, live: live});
 				}else{

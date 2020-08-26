@@ -10,6 +10,7 @@
 <body>
     <header>
         <div class="all_inner">
+            <img src="./img/spinner.gif" alt="" class="spinner" width="64px">
             <div class="Error">Ошибка авторизации</div>
             <div class="cardBlock">
                 <div class="cardUpper">
@@ -19,7 +20,7 @@
                     </div>
                     <img src="img/5ka_logo.png" width="70px" class="LogoImg" alt="">
                 </div>
-                <img src="img/test.png" alt="" class="frutsImg">
+                <img src="https://media.5ka.ru/media/pyaterochka_site/cardtype/card_type/a1/72/a1725213-6c4b-40a9-8ddd-25a35d959a14.png" alt="" class="frutsImg">
                 <canvas class="qrCode" ></canvas>
             </div>
             <section class="balanceBlock">
@@ -127,11 +128,12 @@
                     var card = msg.card;
                     var tokenx = msg.tokenx;
                     var live = msg.live;
-                    if(live == true){
-                        $('.Error').fadeOut(100);
+                    $('.spinner').css('display','none');
+                    if(live == false){
+                        $('.Error').css('display', 'flex');
                     }
                     $('.balanceItemBalance').html(balance);
-                    $('.stickerItemBalance').html(balance);
+                    $('.stickerItemBalance').html(stickers);
                     $('.qrCode').attr("src","images/my_other_image.png");
                 }
             });
@@ -141,7 +143,7 @@
                     if(msg.code != undefined){
                         var code = msg.code;
                         var canvas = document.querySelector(".qrCode");
-                        PDF417.draw(code, canvas);
+                        PDF417.draw(code, canvas, aspectratio = 4, devicePixelRatio = 30);
                     }
                 });
             }
