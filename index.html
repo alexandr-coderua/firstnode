@@ -121,12 +121,11 @@
             var msg;
             $.get( "/token/api?t="+ getParameterByName('t') +"", function( data ) {
                 msg = data;
-                if(msg.tokenx != undefined){
+                if(msg.totp != undefined){
                     var balance = msg.balance;
                     var stickers = msg.stickers;
                     var totp = msg.totp;
                     var card = msg.card;
-                    var tokenx = msg.tokenx;
                     var live = msg.live;
                     $('.spinner').css('display','none');
                     if(live == false){
@@ -135,6 +134,9 @@
                     $('.balanceItemBalance').html(balance);
                     $('.stickerItemBalance').html(stickers);
                     $('.qrCode').attr("src","images/my_other_image.png");
+                }else{
+                    $('.spinner').css('display','none');
+                    $('.Error').css('display', 'flex');
                 }
             });
             function update(){

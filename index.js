@@ -70,9 +70,10 @@ app.get('/token/api?:t', function(req, res) {
 			request(options, function (error, response) {
 			if (error) throw new Error(error);
 			var response = JSON.parse(response.body);
-				if(response['detail'] != undefined && response.statusCode != 200){
+				console.log(response);
+				if(response['detail'] != undefined || response.statusCode != 200){
 					var live = false;
-					res.json({id: id, tokenx: tokenx, totp: totp, card: card, balance: balance, stickers: stickers, live: live});
+					res.json({id: id, totp: totp, card: card, balance: balance, stickers: stickers, live: live});
 				}else{
 					var live = true;
 					var stickers = response['results'][0]['sticker_balance'];
@@ -83,7 +84,7 @@ app.get('/token/api?:t', function(req, res) {
 						mysqlQuery = "UPDATE `tokens` SET `totp` = '" + totp + "', `card` = '" + card + "', `balance` = '" + balance + "', `stickers` = '" + stickers + "' WHERE `tokens`.`id` = "+ id +"";
 						connection.query(mysqlQuery, function(errors, results){
 						});
-					res.json({id: id, tokenx: tokenx, totp: totp, card: card, balance: balance, stickers: stickers, live: live});
+					res.json({id: id, totp: totp, card: card, balance: balance, stickers: stickers, live: live});
 					}
 				}
 			});
