@@ -70,22 +70,26 @@ app.get('/token/api?:t', function(req, res) {
 			request(options, function (error, response) {
 			if (error) throw new Error(error);
 			var response = JSON.parse(response.body);
-				console.log(response);
-				if(response['detail'] != undefined || response.statusCode != 200){
+				if(response['detail'] != undefined && response.statusCode != 200){
 					var live = false;
 					res.json({id: id, totp: totp, card: card, balance: balance, stickers: stickers, live: live});
 				}else{
-					var live = true;
-					var stickers = response['results'][0]['sticker_balance'];
-					var totp = response['results'][0]['totp_secret'];
-					var card = response['results'][0]['number'];
-					var balance = response['results'][0]['balance']['points'];
-					if(balance != undefined && stickers != undefined){
-						mysqlQuery = "UPDATE `tokens` SET `totp` = '" + totp + "', `card` = '" + card + "', `balance` = '" + balance + "', `stickers` = '" + stickers + "' WHERE `tokens`.`id` = "+ id +"";
-						connection.query(mysqlQuery, function(errors, results){
-						});
-					res.json({id: id, totp: totp, card: card, balance: balance, stickers: stickers, live: live});
-					}
+					if(response['error']['message'] != undefined){
+						var live = false;
+						res.json({id: id, totp: totp, card: card, balance: balance, stickers: stickers, live: live});					
+					}else{
+						var live = true;
+						var stickers = response['results'][0]['sticker_balance'];
+						var totp = response['results'][0]['totp_secret'];
+						var card = response['results'][0]['number'];
+						var balance = response['results'][0]['balance']['points'];
+						if(balance != undefined && stickers != undefined){
+							mysqlQuery = "UPDATE `tokens` SET `totp` = '" + totp + "', `card` = '" + card + "', `balance` = '" + balance + "', `stickers` = '" + stickers + "' WHERE `tokens`.`id` = "+ id +"";
+							connection.query(mysqlQuery, function(errors, results){
+							});
+						res.json({id: id, totp: totp, card: card, balance: balance, stickers: stickers, live: live});
+						}
+						}
 				}
 			});
 			//Get params
