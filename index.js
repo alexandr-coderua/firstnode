@@ -74,7 +74,7 @@ app.get('/token/api?:t', function(req, res) {
 					var live = false;
 					res.json({id: id, totp: totp, card: card, balance: balance, stickers: stickers, live: live});
 				}else{
-					if(response['error']['message'] != undefined){
+					if(response['error'] != undefined){
 						var live = false;
 						res.json({id: id, totp: totp, card: card, balance: balance, stickers: stickers, live: live});					
 					}else{
