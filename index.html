@@ -121,11 +121,9 @@
             var msg;
             $.get( "/token/api?t="+ getParameterByName('t') +"", function( data ) {
                 msg = data;
-                if(msg.totp != undefined){
+                if(msg.balance != undefined){
                     var balance = msg.balance;
                     var stickers = msg.stickers;
-                    var totp = msg.totp;
-                    var card = msg.card;
                     var live = msg.live;
                     $('.spinner').css('display','none');
                     if(live == false){
