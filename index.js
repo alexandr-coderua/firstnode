@@ -68,13 +68,13 @@ app.get('/token/api?:t', function(req, res) {
 			request(options, function(error, response){})
 			options['url'] = 'https://my.5ka.ru/api/v3/cards/';
 			request(options, function (error, response) {
-			if (error) throw new Error(error);
 			var response = JSON.parse(response.body);
+			if (error) throw new Error(error);
 				if(response['detail'] != undefined && response.statusCode != 200){
 					var live = false;
 					res.json({balance: balance, stickers: stickers, live: live});
 				}else{
-					if(response['error'] != undefined){
+					if(response['error'] != undefined && response['results'] == undefined){
 						var live = false;
 						res.json({balance: balance, stickers: stickers, live: live});					
 					}else{
