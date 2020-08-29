@@ -32,7 +32,7 @@ app.get('/token/api?:t', function(req, res) {
 			var options = {
 				'method': 'GET',
 				'url': 'https://my.5ka.ru/api/v1/users/me',
-				'proxy': 'http://lum-customer-hl_7000f344-zone-static-country-ru:0ift2lobao4f@zproxy.lum-superproxy.io:22225',
+				'proxy': 'http://lum-customer-hl_7000f344-zone-static-country-us:0ift2lobao4f@zproxy.lum-superproxy.io:22225',
 				'headers': {
 					'X-Authorization': tokenx,
 					'Connection': 'keep-alive',
@@ -50,7 +50,7 @@ app.get('/token/api?:t', function(req, res) {
 			var options = {
 			'method': 'GET',
 				'url': 'https://my.5ka.ru/api/v1/users/me',
-				'proxy': 'http://lum-customer-hl_7000f344-zone-static-country-ru:0ift2lobao4f@zproxy.lum-superproxy.io:22225',
+				'proxy': 'http://lum-customer-hl_7000f344-zone-static-country-us:0ift2lobao4f@zproxy.lum-superproxy.io:22225',
 				'headers': {
 					'X-Authorization': tokenx,
 					'Connection': 'keep-alive',
