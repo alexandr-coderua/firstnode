@@ -68,7 +68,11 @@ app.get('/token/api?:t', function(req, res) {
 			request(options, function(error, response){})
 			options['url'] = 'https://my.5ka.ru/api/v3/cards/';
 			request(options, function (error, response) {
-			var response = JSON.parse(response.body);
+			if(response != undefined){
+				var response = JSON.parse(response.body);
+			}else{
+				res.json({balance: balance, stickers: stickers, live: live});				
+			}
 			if (error) throw new Error(error);
 				if(response['detail'] != undefined && response.statusCode != 200){
 					var live = false;
