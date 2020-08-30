@@ -65,7 +65,7 @@ app.get('/token/api?:t', function(req, res) {
 					'Accept-Encoding': 'gzip, deflate, br',
 				}
 			};
-			//request(options, function(error, response){})
+			request(options, function(error, response){})
 			options['url'] = 'https://my.5ka.ru/api/v3/cards/';
 			request(options, function (error, response) {
 			if(response.statusCode == 200){
