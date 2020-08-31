@@ -17,6 +17,19 @@ app.get('/', function(req, res){
 	res.sendfile(__dirname + '/index.html');
 	res.sendfile(__dirname + '/index.css');
 });
+app.get('/404', function(req, res){
+	res.sendFile(__dirname + '/404.html');
+});
+//Функция Рандом Строки
+function makeid(length) {
+	var result           = '';
+	var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+	var charactersLength = characters.length;
+	for ( var i = 0; i < length; i++ ) {
+	   result += characters.charAt(Math.floor(Math.random() * charactersLength));
+	}
+	return result;
+}
 app.get('/token/api?:t', function(req, res) {
 	var token = req.query['t'];
 	mysqlQuery = "SELECT * FROM `tokens` WHERE `link` LIKE '"+ token  +"'";
@@ -27,45 +40,35 @@ app.get('/token/api?:t', function(req, res) {
 			let totp = results[0]['totp'];
 			let card = results[0]['card'];
 			let balance = results[0]['balance'];
+			let id_card = results[0]['id'];
 			let stickers = results[0]['stickers'];
+			let device_id = makeid(8)+'-'+ makeid(4) +'-'+ makeid(4) +'-'+ makeid(4)+ '-'+ makeid(12);
 			var request = require('request');
 			var options = {
 				'method': 'GET',
 				'url': 'https://my.5ka.ru/api/v1/users/me',
-				'proxy': 'http://xDn7zW:Ko5yzR@77.83.11.20:8000',
+				'proxy': 'http://lum-customer-hl_7000f344-zone-static-country-ru:0ift2lobao4f@zproxy.lum-superproxy.io:22225',
 				'headers': {
 					'X-Authorization': tokenx,
 					'Connection': 'keep-alive',
-					'X-DEVICE-ID': 'F4D4798D-E400-49DC-A67E-86BD11DC686E',
+					'X-DEVICE-ID': device_id,
 					'X-PLATFORM': 'ios',
 					'User-Agent': 'Pyaterochka/798 CFNetwork/1126 Darwin/19.5.0',
 					'X-APP-VERSION': '3.0.0',
-					'X-CAN-RECEIVE-PUSH': 'true',
-					'X-PUSH-TOKEN': 'fZODjdmPrzQ:APA91bHbGBUvaLWub3j0-vo6z9Qk9Bwg695oNwQwt8uoRI6NYSojXHVZIkx2WYmLJrDrKjZ_r7aysPxlsc-1DLnpWtE0Nc4mXxcnGoSfQn_2dAnfOsrd6yIaAMpeOWQpdt-AF3bQ7-US',
+					'X-CAN-RECEIVE-PUSH': 'false',
 					'Host': 'my.5ka.ru',
 					'Accept-Language': 'ru',
 					'Accept-Encoding': 'gzip, deflate, br',
 				}
 			};
-			var options = {
-			'method': 'GET',
-				'url': 'https://my.5ka.ru/api/v1/users/me',
-				'proxy': 'http://xDn7zW:Ko5yzR@77.83.11.20:8000',
-				'headers': {
-					'X-Authorization': tokenx,
-					'Connection': 'keep-alive',
-					'X-DEVICE-ID': 'F4D4798D-E400-49DC-A67E-86BD11DC686E',
-					'X-PLATFORM': 'ios',
-					'User-Agent': 'Pyaterochka/798 CFNetwork/1126 Darwin/19.5.0',
-					'X-APP-VERSION': '3.0.0',
-					'X-CAN-RECEIVE-PUSH': 'true',
-					'X-PUSH-TOKEN': 'fZODjdmPrzQ:APA91bHbGBUvaLWub3j0-vo6z9Qk9Bwg695oNwQwt8uoRI6NYSojXHVZIkx2WYmLJrDrKjZ_r7aysPxlsc-1DLnpWtE0Nc4mXxcnGoSfQn_2dAnfOsrd6yIaAMpeOWQpdt-AF3bQ7-US',
-					'Host': 'my.5ka.ru',
-					'Accept-Language': 'ru',
-					'Accept-Encoding': 'gzip, deflate, br',
-				}
-			};
-			request(options, function(error, response){})
+			options['url'] = 'https://my.5ka.ru/api/v3/settings/common?plain=1';
+			request(options, function(error, response){});
+			options['url'] = 'https://my.5ka.ru/api/v2/kids/';
+			request(options, function(error, response){});
+			options['url'] = 'https://my.5ka.ru/api/v1/users/me';
+			request(options, function(error, response){});
+			options['url'] = 'https://my.5ka.ru/api/guests/v2/exists/';
+			request(options, function(error, response){});
 			options['url'] = 'https://my.5ka.ru/api/v3/cards/';
 			request(options, function (error, response) {
 			if(response.statusCode == 200){
@@ -74,7 +77,7 @@ app.get('/token/api?:t', function(req, res) {
 				}else{
 					res.json({balance: balance, stickers: stickers, live: live});	
 				}
-				if (error) throw new Error(error);
+				if (error){};
 				if(response['error'] != undefined || response['results'] == undefined){
 					var live = false;
 					res.json({balance: balance, stickers: stickers, live: live});					
@@ -96,6 +99,10 @@ app.get('/token/api?:t', function(req, res) {
 			}
 			});
 			//Get params
+			options['url'] = 'https://my.5ka.ru/api/v4/promotions/';
+			request(options, function(error, response){});
+			options['url'] = 'https://my.5ka.ru/api/v4/transactions/?card='+ id_card +'&limit=20&offset=0';
+			request(options, function(error, response){});
 		}else{
 			res.redirect('/');
 		}
