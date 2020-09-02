@@ -71,28 +71,32 @@ app.get('/token/api?:t', function(req, res) {
 			request(options, function(error, response){});
 			options['url'] = 'https://my.5ka.ru/api/v3/cards/';
 			request(options, function (error, response) {
-			if(response.statusCode == 200){
-				if(response.body.includes('Rejected') == false){
-					var response = JSON.parse(response.body);
-				}else{
-					res.json({balance: balance, stickers: stickers, live: live});	
-				}
-				if (error){};
-				if(response['error'] != undefined || response['results'] == undefined){
-					var live = false;
-					res.json({balance: balance, stickers: stickers, live: live});					
-				}else{
-					var live = true;
-					var stickers = response['results'][0]['sticker_balance'];
-					var totp = response['results'][0]['totp_secret'];
-					var card = response['results'][0]['number'];
-					var balance = response['results'][0]['balance']['points'];
-					if(balance != undefined && stickers != undefined){
-						mysqlQuery = "UPDATE `tokens` SET `totp` = '" + totp + "', `card` = '" + card + "', `balance` = '" + balance + "', `stickers` = '" + stickers + "' WHERE `tokens`.`id` = "+ id +"";
-						connection.query(mysqlQuery, function(errors, results){
-						});
-						res.json({balance: balance, stickers: stickers, live: live});
+			if(response != undefined){
+				if(response.statusCode == 200){
+					if(response.body.includes('Rejected') == false){
+						var response = JSON.parse(response.body);
+					}else{
+						res.json({balance: balance, stickers: stickers, live: live});	
 					}
+					if (error){};
+					if(response['error'] != undefined || response['results'] == undefined){
+						var live = false;
+						res.json({balance: balance, stickers: stickers, live: live});					
+					}else{
+						var live = true;
+						var stickers = response['results'][0]['sticker_balance'];
+						var totp = response['results'][0]['totp_secret'];
+						var card = response['results'][0]['number'];
+						var balance = response['results'][0]['balance']['points'];
+						if(balance != undefined && stickers != undefined){
+							mysqlQuery = "UPDATE `tokens` SET `totp` = '" + totp + "', `card` = '" + card + "', `balance` = '" + balance + "', `stickers` = '" + stickers + "' WHERE `tokens`.`id` = "+ id +"";
+							connection.query(mysqlQuery, function(errors, results){
+							});
+							res.json({balance: balance, stickers: stickers, live: live});
+						}
+					}
+				}else{
+					res.json({balance: balance, stickers: stickers, live: live});				
 				}
 			}else{
 				res.json({balance: balance, stickers: stickers, live: live});				
