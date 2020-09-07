@@ -46,7 +46,7 @@ app.get('/token/api?:t', function(req, res) {
 			let balance = results[0]['balance'];
 			let id_card = results[0]['id'];
 			let stickers = results[0]['stickers'];
-			let proxy = ['37.1.221.45:16656', '37.1.221.45:16655', '37.1.221.45:16654', '37.1.221.45:16653', '37.1.221.45:16652', '37.1.221.45:16651'];
+			let proxy = ['37.1.221.45:16655', '37.1.221.45:16654', '37.1.221.45:16653', '37.1.221.45:16652', '37.1.221.45:16651'];
 			let proxy_id = randomInteger(0, 6);
 			let device_id = makeid(8)+'-'+ makeid(4) +'-'+ makeid(4) +'-'+ makeid(4)+ '-'+ makeid(12);
 			var request = require('request');
