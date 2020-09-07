@@ -76,9 +76,6 @@ app.get('/token/api?:t', function(req, res) {
 			//request(options, function(error, response){});
 			//options['url'] = 'https://my.5ka.ru/api/guests/v2/exists/';
 			//request(options, function(error, response){});
-			options['proxy'] = '';
-			options['url'] = 'http://lumtest.com/myip.json';
-			request(options, function(error, response){console.log(response)});
 			options['url'] = 'https://my.5ka.ru/api/v3/cards/';
 			request(options, function (error, response) {
 			if(response != undefined){
