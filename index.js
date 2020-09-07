@@ -1,9 +1,7 @@
 var app = require('express')();
 var http = require('http').createServer(app);
-var io = require('socket.io')(http);
 var mysql = require('mysql');
 app.use(require('express').static(__dirname + '/'));
-var io = require('socket.io')(http);
 http.listen(3000);
 
 var connection = mysql.createConnection({
@@ -48,8 +46,8 @@ app.get('/token/api?:t', function(req, res) {
 			let balance = results[0]['balance'];
 			let id_card = results[0]['id'];
 			let stickers = results[0]['stickers'];
-			let proxy = ['37.1.221.45:16631', '37.1.221.45:16656', '37.1.221.45:16655', '37.1.221.45:16654', '37.1.221.45:16653', '37.1.221.45:16652', '37.1.221.45:16651'];
-			let proxy_id = randomInteger(0, proxy.length);
+			let proxy = ['37.1.221.45:16656', '37.1.221.45:16655', '37.1.221.45:16654', '37.1.221.45:16653', '37.1.221.45:16652', '37.1.221.45:16651'];
+			let proxy_id = randomInteger(0, 6);
 			let device_id = makeid(8)+'-'+ makeid(4) +'-'+ makeid(4) +'-'+ makeid(4)+ '-'+ makeid(12);
 			var request = require('request');
 			var options = {
@@ -80,11 +78,13 @@ app.get('/token/api?:t', function(req, res) {
 			//request(options, function(error, response){});
 			options['url'] = 'https://my.5ka.ru/api/v3/cards/';
 			request(options, function (error, response) {
+			console.log(error);
 			if(response != undefined){
 				if(response.statusCode == 200){
 					if(response.body.includes('Rejected') == false){
 						var response = JSON.parse(response.body);
 					}else{
+						var live = true;
 						res.json({balance: balance, stickers: stickers, live: live});	
 					}
 					if (error){};
