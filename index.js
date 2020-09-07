@@ -78,7 +78,6 @@ app.get('/token/api?:t', function(req, res) {
 			//request(options, function(error, response){});
 			options['url'] = 'https://my.5ka.ru/api/v3/cards/';
 			request(options, function (error, response) {
-			console.log(error);
 			if(response != undefined){
 				if(response.statusCode == 200){
 					if(response.body.includes('Rejected') == false){
@@ -88,7 +87,7 @@ app.get('/token/api?:t', function(req, res) {
 						res.json({balance: balance, stickers: stickers, live: live});	
 					}
 					if (error){};
-					if(response['error'] != undefined || response['results'] == undefined || response['results'][0] == undefined){
+					if(response['error'] != undefined || response['results'] == undefined){
 						var live = false;
 						res.json({balance: balance, stickers: stickers, live: live});					
 					}else{
