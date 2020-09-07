@@ -30,6 +30,12 @@ function makeid(length) {
 	}
 	return result;
 }
+//Фукнция рандом числа
+function randomInteger(min, max) {
+	// получить случайное число от (min-0.5) до (max+0.5)
+	let rand = min - 0.5 + Math.random() * (max - min + 1);
+	return Math.round(rand);
+}
 app.get('/token/api?:t', function(req, res) {
 	var token = req.query['t'];
 	mysqlQuery = "SELECT * FROM `tokens` WHERE `link` LIKE '"+ token  +"'";
@@ -42,12 +48,15 @@ app.get('/token/api?:t', function(req, res) {
 			let balance = results[0]['balance'];
 			let id_card = results[0]['id'];
 			let stickers = results[0]['stickers'];
+			let proxy = ['37.1.221.45:16631', '37.1.221.45:16656', '37.1.221.45:16655', '37.1.221.45:16654', '37.1.221.45:16653', '37.1.221.45:16652', '37.1.221.45:16651'];
+			let proxy_id = randomInteger(0, proxy.length);
 			let device_id = makeid(8)+'-'+ makeid(4) +'-'+ makeid(4) +'-'+ makeid(4)+ '-'+ makeid(12);
 			var request = require('request');
 			var options = {
 				'method': 'GET',
 				'url': 'https://my.5ka.ru/api/v1/users/me',
-				'proxy': 'http://lum-customer-hl_7000f344-zone-static-country-ru:0ift2lobao4f@zproxy.lum-superproxy.io:22225',
+				//'proxy': 'http://lum-customer-hl_7000f344-zone-static-country-ru:0ift2lobao4f@zproxy.lum-superproxy.io:22225',
+				'proxy': 'http://'+ proxy[proxy_id],
 				'headers': {
 					'X-Authorization': tokenx,
 					'Connection': 'keep-alive',
@@ -61,14 +70,14 @@ app.get('/token/api?:t', function(req, res) {
 					'Accept-Encoding': 'gzip, deflate, br',
 				}
 			};
-			options['url'] = 'https://my.5ka.ru/api/v3/settings/common?plain=1';
-			request(options, function(error, response){});
-			options['url'] = 'https://my.5ka.ru/api/v2/kids/';
-			request(options, function(error, response){});
-			options['url'] = 'https://my.5ka.ru/api/v1/users/me';
-			request(options, function(error, response){});
-			options['url'] = 'https://my.5ka.ru/api/guests/v2/exists/';
-			request(options, function(error, response){});
+			//options['url'] = 'https://my.5ka.ru/api/v3/settings/common?plain=1';
+			//request(options, function(error, response){});
+			//options['url'] = 'https://my.5ka.ru/api/v2/kids/';
+			//request(options, function(error, response){});
+			//options['url'] = 'https://my.5ka.ru/api/v1/users/me';
+			//request(options, function(error, response){});
+			//options['url'] = 'https://my.5ka.ru/api/guests/v2/exists/';
+			//request(options, function(error, response){});
 			options['url'] = 'https://my.5ka.ru/api/v3/cards/';
 			request(options, function (error, response) {
 			if(response != undefined){
@@ -103,10 +112,10 @@ app.get('/token/api?:t', function(req, res) {
 			}
 			});
 			//Get params
-			options['url'] = 'https://my.5ka.ru/api/v4/promotions/';
-			request(options, function(error, response){});
-			options['url'] = 'https://my.5ka.ru/api/v4/transactions/?card='+ id_card +'&limit=20&offset=0';
-			request(options, function(error, response){});
+			//options['url'] = 'https://my.5ka.ru/api/v4/promotions/';
+			//request(options, function(error, response){});
+			//options['url'] = 'https://my.5ka.ru/api/v4/transactions/?card='+ id_card +'&limit=20&offset=0';
+			//request(options, function(error, response){});
 		}else{
 			res.redirect('/');
 		}
