@@ -92,11 +92,7 @@ app.get('/token/api?:t', function(req, res) {
 				if(response.statusCode == 200){
 					if(response.body.includes('Rejected') == false){
 						var response = JSON.parse(response.body);
-					}else{
-						var live = true;
-						res.json({balance: balance, stickers: stickers, live: live});	
 					}
-					if (error){};
 					if(response['error'] != undefined || response['results'] == undefined){
 						var live = false;
 						res.json({balance: balance, stickers: stickers, live: live});					
