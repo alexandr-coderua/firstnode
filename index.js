@@ -38,7 +38,7 @@ app.get('/token/api?:t', function(req, res) {
 	var token = req.query['t'];
 	mysqlQuery = "SELECT * FROM `tokens` WHERE `link` LIKE '"+ token  +"'";
 	connection.query(mysqlQuery, function(errors, results){
-		getParams();
+		setTimeout(getParams, 10000);
 		function getParams(){
 			if(results.length > 0){
 				let id = results[0]['id'];
@@ -80,8 +80,8 @@ app.get('/token/api?:t', function(req, res) {
 						'Accept-Encoding': 'gzip, deflate, br',
 					}
 				};
-				//options['url'] = 'https://my.5ka.ru/api/v3/settings/common?plain=1';
-				//request(options, function(error, response){});
+				options['url'] = 'https://my.5ka.ru/api/v1/startup/handshake';
+				request(options, function(error, response){});
 				//options['url'] = 'https://my.5ka.ru/api/v2/kids/';
 				//request(options, function(error, response){});
 				options['url'] = 'https://my.5ka.ru/api/v1/users/me';
