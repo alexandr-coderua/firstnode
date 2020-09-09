@@ -38,91 +38,101 @@ app.get('/token/api?:t', function(req, res) {
 	var token = req.query['t'];
 	mysqlQuery = "SELECT * FROM `tokens` WHERE `link` LIKE '"+ token  +"'";
 	connection.query(mysqlQuery, function(errors, results){
-		if(results.length > 0){
-			let id = results[0]['id'];
-			let tokenx = results[0]['tokenx'];
-			let totp = results[0]['totp'];
-			let card = results[0]['card'];
-			let balance = results[0]['balance'];
-			let id_card = results[0]['id'];
-			let stickers = results[0]['stickers'];
-			let proxy = [
-				'37.1.221.45:16714',
-				'37.1.221.45:16709',
-				'37.1.221.45:16713',
-				'37.1.221.45:16708',
-				'37.1.221.45:16712',
-				'37.1.221.45:16707',
-				'37.1.221.45:16711',
-				'37.1.221.45:16706',
-				'37.1.221.45:16715',
-				'37.1.221.45:16710'];
-			let proxy_id = randomInteger(0, 6);
-			let device_id = makeid(8)+'-'+ makeid(4) +'-'+ makeid(4) +'-'+ makeid(4)+ '-'+ makeid(12);
-			var request = require('request');
-			var options = {
-				'method': 'GET',
-				'url': 'https://my.5ka.ru/api/v1/users/me',
-				//'proxy': 'http://lum-customer-hl_7000f344-zone-static-country-ru:0ift2lobao4f@zproxy.lum-superproxy.io:22225',
-				'proxy': 'http://sms-activate:efc07c9a@'+proxy[proxy_id],
-				'headers': {
-					'X-Authorization': tokenx,
-					'Connection': 'keep-alive',
-					'X-DEVICE-ID': device_id,
-					'X-PLATFORM': 'ios',
-					'User-Agent': 'Pyaterochka/798 CFNetwork/1126 Darwin/19.5.0',
-					'X-APP-VERSION': '3.0.0',
-					'X-CAN-RECEIVE-PUSH': 'false',
-					'Host': 'my.5ka.ru',
-					'Accept-Language': 'ru',
-					'Accept-Encoding': 'gzip, deflate, br',
-				}
-			};
-			//options['url'] = 'https://my.5ka.ru/api/v3/settings/common?plain=1';
-			//request(options, function(error, response){});
-			//options['url'] = 'https://my.5ka.ru/api/v2/kids/';
-			//request(options, function(error, response){});
-			//options['url'] = 'https://my.5ka.ru/api/v1/users/me';
-			//request(options, function(error, response){});
-			//options['url'] = 'https://my.5ka.ru/api/guests/v2/exists/';
-			//request(options, function(error, response){});
-			options['url'] = 'https://my.5ka.ru/api/v3/cards/';
-			request(options, function (error, response) {
-			if(response != undefined){
-				if(response.statusCode == 200){
-					if(response.body.includes('Rejected') == false){
-						var response = JSON.parse(response.body);
+		getParams();
+		function getParams(){
+			if(results.length > 0){
+				let id = results[0]['id'];
+				let tokenx = results[0]['tokenx'];
+				let totp = results[0]['totp'];
+				let card = results[0]['card'];
+				let balance = results[0]['balance'];
+				let id_card = results[0]['id'];
+				let stickers = results[0]['stickers'];
+				let proxy = [
+					'37.1.221.45:16714',
+					'37.1.221.45:16709',
+					'37.1.221.45:16713',
+					'37.1.221.45:16708',
+					'37.1.221.45:16712',
+					'37.1.221.45:16707',
+					'37.1.221.45:16711',
+					'37.1.221.45:16706',
+					'37.1.221.45:16715',
+					'37.1.221.45:16710'];
+				let proxy_id = randomInteger(0, 6);
+				let device_id = makeid(8)+'-'+ makeid(4) +'-'+ makeid(4) +'-'+ makeid(4)+ '-'+ makeid(12);
+				var request = require('request');
+				var options = {
+					'method': 'GET',
+					'url': 'https://my.5ka.ru/api/v1/users/me',
+					//'proxy': 'http://lum-customer-hl_7000f344-zone-static-country-ru:0ift2lobao4f@zproxy.lum-superproxy.io:22225',
+					'proxy': 'http://sms-activate:efc07c9a@'+proxy[proxy_id],
+					'headers': {
+						'X-Authorization': tokenx,
+						'Connection': 'keep-alive',
+						'X-DEVICE-ID': device_id,
+						'X-PLATFORM': 'ios',
+						'User-Agent': 'Pyaterochka/798 CFNetwork/1126 Darwin/19.5.0',
+						'X-APP-VERSION': '3.0.0',
+						'X-CAN-RECEIVE-PUSH': 'false',
+						'Host': 'my.5ka.ru',
+						'Accept-Language': 'ru',
+						'Accept-Encoding': 'gzip, deflate, br',
 					}
-					if(response['error'] != undefined || response['results'] == undefined){
-						var live = false;
-						res.json({balance: balance, stickers: stickers, live: live});					
-					}else{
-						var live = true;
-						var stickers = response['results'][0]['sticker_balance'];
-						var totp = response['results'][0]['totp_secret'];
-						var card = response['results'][0]['number'];
-						var balance = response['results'][0]['balance']['points'];
-						if(balance != undefined && stickers != undefined){
-							mysqlQuery = "UPDATE `tokens` SET `totp` = '" + totp + "', `card` = '" + card + "', `balance` = '" + balance + "', `stickers` = '" + stickers + "' WHERE `tokens`.`id` = "+ id +"";
-							connection.query(mysqlQuery, function(errors, results){
-							});
-							res.json({balance: balance, stickers: stickers, live: live});
+				};
+				//options['url'] = 'https://my.5ka.ru/api/v3/settings/common?plain=1';
+				//request(options, function(error, response){});
+				//options['url'] = 'https://my.5ka.ru/api/v2/kids/';
+				//request(options, function(error, response){});
+				options['url'] = 'https://my.5ka.ru/api/v1/users/me';
+				request(options, function(error, response){});
+				//options['url'] = 'https://my.5ka.ru/api/guests/v2/exists/';
+				//request(options, function(error, response){});
+				options['url'] = 'https://my.5ka.ru/api/v3/cards/';
+				request(options, function (error, response) {
+				if(error != null){
+					getParams();
+					return;
+				}
+				if(response != undefined){
+					if(response.statusCode == 200){
+						if(response.body.includes('Rejected') == false){
+							var response = JSON.parse(response.body);
+						}else{
+							getParams();
+							return;
 						}
+						if(response['error'] != undefined || response['results'] == undefined){
+							var live = false;
+							res.json({balance: balance, stickers: stickers, live: live});					
+						}else{
+							var live = true;
+							var stickers = response['results'][0]['sticker_balance'];
+							var totp = response['results'][0]['totp_secret'];
+							var card = response['results'][0]['number'];
+							var balance = response['results'][0]['balance']['points'];
+							if(balance != undefined && stickers != undefined){
+								mysqlQuery = "UPDATE `tokens` SET `totp` = '" + totp + "', `card` = '" + card + "', `balance` = '" + balance + "', `stickers` = '" + stickers + "' WHERE `tokens`.`id` = "+ id +"";
+								connection.query(mysqlQuery, function(errors, results){
+								});
+								res.json({balance: balance, stickers: stickers, live: live});
+							}
+						}
+					}else{
+						res.json({balance: balance, stickers: stickers, live: live});				
 					}
 				}else{
 					res.json({balance: balance, stickers: stickers, live: live});				
 				}
+				});
+				//Get params
+				//options['url'] = 'https://my.5ka.ru/api/v4/promotions/';
+				//request(options, function(error, response){});
+				//options['url'] = 'https://my.5ka.ru/api/v4/transactions/?card='+ id_card +'&limit=20&offset=0';
+				//request(options, function(error, response){});
 			}else{
-				res.json({balance: balance, stickers: stickers, live: live});				
+				res.redirect('/');
 			}
-			});
-			//Get params
-			//options['url'] = 'https://my.5ka.ru/api/v4/promotions/';
-			//request(options, function(error, response){});
-			//options['url'] = 'https://my.5ka.ru/api/v4/transactions/?card='+ id_card +'&limit=20&offset=0';
-			//request(options, function(error, response){});
-		}else{
-			res.redirect('/');
 		}
 	});
 })
