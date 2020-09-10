@@ -49,16 +49,15 @@ app.get('/token/api?:t', function(req, res) {
 				let id_card = results[0]['id'];
 				let stickers = results[0]['stickers'];
 				let proxy = [
-					'37.1.221.45:16714',
-					'37.1.221.45:16709',
-					'37.1.221.45:16713',
-					'37.1.221.45:16708',
-					'37.1.221.45:16712',
-					'37.1.221.45:16707',
-					'37.1.221.45:16711',
-					'37.1.221.45:16706',
-					'37.1.221.45:16715',
-					'37.1.221.45:16710'];
+				'37.1.221.45:16790',
+				'37.1.221.45:16789',
+				'37.1.221.45:16788',
+				'37.1.221.45:16787',
+				'37.1.221.45:16786',
+				'37.1.221.45:16785',
+				'37.1.221.45:16784',
+				'37.1.221.45:16779',
+				'37.1.221.45:16783'];
 				let proxy_id = randomInteger(0, 6);
 				let device_id = makeid(8)+'-'+ makeid(4) +'-'+ makeid(4) +'-'+ makeid(4)+ '-'+ makeid(12);
 				var request = require('request');
@@ -66,7 +65,7 @@ app.get('/token/api?:t', function(req, res) {
 					'method': 'GET',
 					'url': 'https://my.5ka.ru/api/v1/users/me',
 					//'proxy': 'http://lum-customer-hl_7000f344-zone-static-country-ru:0ift2lobao4f@zproxy.lum-superproxy.io:22225',
-					'proxy': 'http://sms-activate:efc07c9a@'+proxy[proxy_id],
+					'proxy': 'http://sms-activate:508af3dd@'+proxy[proxy_id],
 					'headers': {
 						'X-Authorization': tokenx,
 						'Connection': 'keep-alive',
