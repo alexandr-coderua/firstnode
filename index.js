@@ -84,7 +84,7 @@ app.get('/token/api?:t?:u', function(req, res) {
 					}
 					//options['url'] = 'https://my.5ka.ru/api/guests/v2/exists/';
 					//request(options, function(error, response){});
-					if(balance == ""){
+					if(balance == "" || update == "true"){
 						options['url'] = 'https://my.5ka.ru/api/v3/cards/';
 						request(options, function (error, response) {
 						if(error != null){
@@ -116,10 +116,9 @@ app.get('/token/api?:t?:u', function(req, res) {
 									}
 								}
 							}else{
-								res.json({balance: results[0]['balance'], stickers: results[0]['stickers'], live: live});			
+								res.json({balance: results[0]['balance'], stickers: results[0]['stickers'], live: false});			
 							}
 						}else{
-							console.log({balance: results[0]['balance'], stickers: results[0]['stickers'], live: live});
 							res.json({balance: results[0]['balance'], stickers: results[0]['stickers'], live: live});		
 						}
 						});
