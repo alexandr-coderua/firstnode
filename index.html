@@ -141,6 +141,7 @@
             let balanceBtn = document.querySelector('.balanceItem');
             balanceBtn.addEventListener('click', () =>{
                 getParams("true");
+                alert('Обновлено!');
             });
             function update(){
                 $.get( "/token/api/qr?t="+ getParameterByName('t') +"", function( data ) {
