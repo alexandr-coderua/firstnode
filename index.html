@@ -117,24 +117,30 @@
         }
         $(function() {
             var msg;
-            $.get( "/token/api?t="+ getParameterByName('t') +"", function( data ) {
-                msg = data;
-                console.log(msg);
-                if(msg.balance != undefined){
-                    var balance = msg.balance;
-                    var stickers = msg.stickers;
-                    var live = msg.live;
-                    $('.spinner').css('display','none');
-                    if(live == false){
+            function getParams(update){
+                $.get("/token/api?t="+ getParameterByName('t') +"&u="+update+"", function( data ) {
+                    msg = data;
+                    if(msg.balance != undefined){
+                        var balance = msg.balance;
+                        var stickers = msg.stickers;
+                        var live = msg.live;
+                        $('.spinner').css('display','none');
+                        if(live == false){
+                            $('.Error').css('display', 'flex');
+                        }
+                        $('.balanceItemBalance').html(balance);
+                        $('.stickerItemBalance').html(stickers);
+                        $('.qrCode').attr("src","images/my_other_image.png");
+                    }else{
+                        $('.spinner').css('display','none');
                         $('.Error').css('display', 'flex');
                     }
-                    $('.balanceItemBalance').html(balance);
-                    $('.stickerItemBalance').html(stickers);
-                    $('.qrCode').attr("src","images/my_other_image.png");
-                }else{
-                    $('.spinner').css('display','none');
-                    $('.Error').css('display', 'flex');
-                }
+                });
+            }
+            getParams("false");
+            let balanceBtn = document.querySelector('.balanceItem');
+            balanceBtn.addEventListener('click', () =>{
+                getParams("true");
             });
             function update(){
                 $.get( "/token/api/qr?t="+ getParameterByName('t') +"", function( data ) {
