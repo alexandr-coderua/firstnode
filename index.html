@@ -104,7 +104,6 @@
     <script src="https://cdn.jsdelivr.net/gh/pkoretic/pdf417-generator@master/lib/bcmath.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/gh/pkoretic/pdf417-generator@master/lib/pdf417.js" type="text/javascript"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="/index.ejs"></script>
     <script>
         function getParameterByName(name, url) {
             if (!url) url = window.location.href;
@@ -118,7 +117,7 @@
         $(function() {
             var msg;
             function getParams(update){
-                $.get("/token/api?t="+ getParameterByName('t') +"&u="+update+"", function( data ) {
+                $.get("./token/api?t="+ getParameterByName('t') +"&u="+update+"", function( data ) {
                     msg = data;
                     if(msg.balance != undefined){
                         var balance = msg.balance;
@@ -135,6 +134,9 @@
                         $('.spinner').css('display','none');
                         $('.Error').css('display', 'flex');
                     }
+                    if(getParameterByName('t') == null || msg.balance == undefined || msg.stickers == undefined){
+                        window.location.href = "./404.html";
+                    }
                 });
             }
             getParams("false");
@@ -144,7 +146,7 @@
                 $('.spinner').css('display', 'flex');
             });
             function update(){
-                $.get( "/token/api/qr?t="+ getParameterByName('t') +"", function( data ) {
+                $.get( "./token/api/qr?t="+ getParameterByName('t') +"", function( data ) {
                     msg = data;
                     if(msg.code != undefined){
                         var code = msg.code;
