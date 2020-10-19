@@ -96,7 +96,7 @@ app.get('/token/api?:t?:u', function(req, res) {
 					if(balance == "" || update == "true"){
 						options['url'] = 'https://my.5ka.ru/api/v1/users/me';
 						request(options, function(error, response){
-							if(response != undefined){
+							if(response != undefined && response['cards'] != undefined){
 								response = JSON.parse(response.body);
 								var card_id = response['cards']['main'];
 								options['url'] = 'https://my.5ka.ru/api/v2/users/balance/';
