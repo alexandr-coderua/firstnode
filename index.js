@@ -96,48 +96,52 @@ app.get('/token/api?:t?:u', function(req, res) {
 					if(balance == "" || update == "true"){
 						options['url'] = 'https://my.5ka.ru/api/v1/users/me';
 						request(options, function(error, response){
-							response = JSON.parse(response.body);
-							var card_id = response['cards']['main'];
-							options['url'] = 'https://my.5ka.ru/api/v2/users/balance/';
-							request(options, function(error, response){
-							options['url'] = 'https://my.5ka.ru/api/v1/cards/'+card_id;
-							request(options, function (error, response) {
-							if(error != null){
-								getParams();
-								return;
-							}
 							if(response != undefined){
-								if(response.statusCode == 200){
-									if(response.body.includes('Rejected') == false){
-										var response = JSON.parse(response.body);
-									}else{
-										getParams();
-										return;
-									}
-									if(response['error'] != undefined || response['status'] != 1){
-										var live = false;
-										res.json({balance: results[0]['balance'], stickers: results[0]['stickers'], live: live});					
-									}else{
-										var live = true;
-										var stickers = response['sticker_balance'];
-										var totp = response['totp_secret'];
-										var card = response['number'];
-										var balance = response['balance']['points'];
-										if(balance != undefined && stickers != undefined){
-											mysqlQuery = "UPDATE `tokens` SET `totp` = '" + totp + "', `card` = '" + card + "', `balance` = '" + balance + "', `stickers` = '" + stickers + "' WHERE `tokens`.`id` = "+ id +"";
-											connection.query(mysqlQuery, function(errors, results){
-											});
-											res.json({balance: balance, stickers: stickers, live: live});
-										}
-									}
-								}else{
-									res.json({balance: results[0]['balance'], stickers: results[0]['stickers'], live: false});			
+								response = JSON.parse(response.body);
+								var card_id = response['cards']['main'];
+								options['url'] = 'https://my.5ka.ru/api/v2/users/balance/';
+								request(options, function(error, response){
+								options['url'] = 'https://my.5ka.ru/api/v1/cards/'+card_id;
+								request(options, function (error, response) {
+								if(error != null){
+									getParams();
+									return;
 								}
+									if(response != undefined){
+										if(response.statusCode == 200){
+											if(response.body.includes('Rejected') == false){
+												var response = JSON.parse(response.body);
+											}else{
+												getParams();
+												return;
+											}
+											if(response['error'] != undefined || response['status'] != 1){
+												var live = false;
+												res.json({balance: results[0]['balance'], stickers: results[0]['stickers'], live: live});					
+											}else{
+												var live = true;
+												var stickers = response['sticker_balance'];
+												var totp = response['totp_secret'];
+												var card = response['number'];
+												var balance = response['balance']['points'];
+												if(balance != undefined && stickers != undefined){
+													mysqlQuery = "UPDATE `tokens` SET `totp` = '" + totp + "', `card` = '" + card + "', `balance` = '" + balance + "', `stickers` = '" + stickers + "' WHERE `tokens`.`id` = "+ id +"";
+													connection.query(mysqlQuery, function(errors, results){
+													});
+													res.json({balance: balance, stickers: stickers, live: live});
+												}
+											}
+										}else{
+											res.json({balance: results[0]['balance'], stickers: results[0]['stickers'], live: false});			
+										}
+									}else{
+										res.json({balance: results[0]['balance'], stickers: results[0]['stickers'], live: live});		
+									}
+								});
+								});
 							}else{
-								res.json({balance: results[0]['balance'], stickers: results[0]['stickers'], live: live});		
+								res.json({balance: results[0]['balance'], stickers: results[0]['stickers'], live: false});		
 							}
-							});
-							});
 						});
 					}else{
 						var live = true;
