@@ -72,8 +72,8 @@ app.get('/token/api?:t?:u', function(req, res) {
 							//'X-DEVICE-ID': device_id,
 							//'X-PLATFORM': 'ios',
 							'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36',
-							'X-APP-VERSION': '3.1.1',
-							'X-CAN-RECEIVE-PUSH': 'false',
+							//'X-APP-VERSION': '3.1.1',
+							//'X-CAN-RECEIVE-PUSH': 'false',
 							'Accept': 'application/json, text/plain, */*',
 							'Origin': 'my.5ka.ru',
 							'Accept-Language': 'ru',
@@ -123,7 +123,6 @@ app.get('/token/api?:t?:u', function(req, res) {
 										var totp = response['totp_secret'];
 										var card = response['number'];
 										var balance = response['balance']['points'];
-										console.log({balance: balance, stickers: stickers, live: live});
 										if(balance != undefined && stickers != undefined){
 											mysqlQuery = "UPDATE `tokens` SET `totp` = '" + totp + "', `card` = '" + card + "', `balance` = '" + balance + "', `stickers` = '" + stickers + "' WHERE `tokens`.`id` = "+ id +"";
 											connection.query(mysqlQuery, function(errors, results){
