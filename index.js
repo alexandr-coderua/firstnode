@@ -96,6 +96,7 @@ app.get('/token/api?:t?:u', function(req, res) {
 					if(balance == "" || update == "true"){
 						options['url'] = 'https://my.5ka.ru/api/v1/users/me';
 						request(options, function(error, response){
+							console.log(response);
 							if(response != undefined && response['cards'] != undefined){
 								response = JSON.parse(response.body);
 								var card_id = response['cards']['main'];
@@ -140,7 +141,9 @@ app.get('/token/api?:t?:u', function(req, res) {
 								});
 								});
 							}else{
-								console.log('Прокси Похоже Что Сдохли http://'+ pass +'@'+ ip);
+								if(response == undefined){
+									console.log('Прокси Похоже Что Сдохли http://'+ pass +'@'+ ip);
+								}
 								res.json({balance: results[0]['balance'], stickers: results[0]['stickers'], live: false});		
 							}
 						});
