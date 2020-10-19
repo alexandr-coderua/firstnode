@@ -2,7 +2,7 @@ var app = require('express')();
 var http = require('http').createServer(app);
 var mysql = require('mysql');
 app.use(require('express').static(__dirname + '/'));
-http.listen(3000);
+http.listen(80);
 
 var connection = mysql.createConnection({
 	host     : '37.140.192.184',
