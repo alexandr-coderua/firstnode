@@ -77,7 +77,7 @@ app.get('/token/api?:t?:u', function(req, res) {
 							'Accept': 'application/json, text/plain, */*',
 							'Origin': 'my.5ka.ru',
 							'Accept-Language': 'ru',
-							'Cookie': cookie,
+							'Cookie': 'cookie',
 							'Accept-Encoding': 'gzip, deflate, br',
 						}
 					};
@@ -140,6 +140,7 @@ app.get('/token/api?:t?:u', function(req, res) {
 								});
 								});
 							}else{
+								console.log('Прокси Похоже Что Сдохли http://'+ pass +'@'+ ip);
 								res.json({balance: results[0]['balance'], stickers: results[0]['stickers'], live: false});		
 							}
 						});
