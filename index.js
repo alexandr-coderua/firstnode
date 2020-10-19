@@ -96,9 +96,9 @@ app.get('/token/api?:t?:u', function(req, res) {
 					if(balance == "" || update == "true"){
 						options['url'] = 'https://my.5ka.ru/api/v1/users/me';
 						request(options, function(error, response){
-							console.log(response);
-							if(response != undefined && response['cards'] != undefined){
+							if(response != undefined){
 								response = JSON.parse(response.body);
+								if(response['cards'] != undefined){
 								var card_id = response['cards']['main'];
 								options['url'] = 'https://my.5ka.ru/api/v2/users/balance/';
 								request(options, function(error, response){
@@ -138,8 +138,11 @@ app.get('/token/api?:t?:u', function(req, res) {
 									}else{
 										res.json({balance: results[0]['balance'], stickers: results[0]['stickers'], live: live});		
 									}
-								});
-								});
+									});
+								});	
+								}else{
+									res.json({balance: results[0]['balance'], stickers: results[0]['stickers'], live: false});
+								}
 							}else{
 								if(response == undefined){
 									console.log('Прокси Похоже Что Сдохли http://'+ pass +'@'+ ip);
